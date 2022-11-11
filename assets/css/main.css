@@ -1,0 +1,19 @@
+
+.quizTitle {
+    font-family: Futura, Trebuchet MS, Arial, sans-serif;
+    font-weight: bold;
+    color: green;
+}
+
+
+
+#startQuiz {
+    font-weight: bold;
+    color: green;
+}
+
+
+button {
+    font-weight: bold;
+}
+
