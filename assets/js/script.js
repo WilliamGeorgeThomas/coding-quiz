@@ -4,6 +4,7 @@ let qDiv = document.querySelector("#questions");
 let timerElement = document.querySelector("#countdown");
 let resultsDiv = document.querySelector("#results");
 let nameBox = document.querySelector("#enterName");
+let submitDiv = document.querySelector("#submit");
 let playAgainbtn = document.querySelector("#playAgain");
 let questions = [
   { title: "Arrays are enclosed with what?", choices: ["parentheses", "brackets", "curly braces", "quotes"], answer: "brackets" },
@@ -22,6 +23,10 @@ function startQuiz() {
   resultsDiv.innerHTML = "";
   playAgainbtn.innerHTML = "";
   playAgainbtn.disabled = true;
+  nameBox.disabled = true;
+  nameBox.innerHTML = "";
+  submitDiv.disabled = true;
+  submitDiv.innerHTML = "";
   timerCount = 30;
   createButtons(questionsIndex);
   //bring up question
@@ -35,7 +40,10 @@ function startTimer() {
   timer = setInterval(function () {
     timerCount--;
     timerElement.textContent = timerCount;
-
+    if (timerCount <= 10) {
+      timerElement.style.color = "red";
+      timerElement.style.fontSize = "3rem";
+    }
     if (timerCount === 0) {
       // Tests if time has run out
       // Clears interval
@@ -85,11 +93,21 @@ function gameOver() {
   playAgainbtn.appendChild(again);
 
   let enterBox = document.createElement("input");
-  enterBox.attributes
+  enterBox.setAttribute("placeholder", "ENTER YOUR NAME");
   nameBox.appendChild(enterBox);
+
+  let submitBtn = document.createElement("button");
+  submitBtn.textContent = "SUBMIT";
+  submitDiv.appendChild(submitBtn);
 
   let element = document.getElementById("#questions");
   element.remove();
+}
+
+function submitName() {
+  // let element = getElementById('#enterName');
+  // localStorage.setItem("userName", element);
+  localStorage.setItem("score", timerCount);
 }
 
 //function calls
@@ -120,5 +138,7 @@ qDiv.addEventListener("click", function (event) {
     gameOver();
   }
 });
+
+submitDiv.addEventListener("click", submitName);
 
 playAgainbtn.addEventListener("click", startQuiz);

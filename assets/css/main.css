@@ -16,8 +16,8 @@ body {
 
 
 .card {
-    width: 40rem;
-    height: 20rem;
+    width: 50rem;
+    height: 30rem;
     border: 3px solid black;
     border-radius: 25%;
     box-shadow: 6px 6px 6px black;
@@ -82,7 +82,9 @@ button {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: yellow;
+    color: black;
+    font-weight: bold;
+    font-size: 1.5rem;
 }
 
 #playAgain {
@@ -90,4 +92,14 @@ button {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.timer {
+    font-size: 1.5rem;
+    color: black;
+}
+
+#countdown {
+    font-size: 1.5rem;
+    color: white;
 }
