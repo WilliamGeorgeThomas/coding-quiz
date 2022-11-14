@@ -2,23 +2,30 @@
 let startQuizbtn = document.querySelector("#startQuiz");
 let qDiv = document.querySelector("#questions");
 let timerElement = document.querySelector("#countdown");
+let resultsDiv = document.querySelector("#results");
+let nameBox = document.querySelector("#enterName");
+let playAgainbtn = document.querySelector("#playAgain");
 let questions = [
-  { title: "this is the first question?", choices: ["hi", "how", "are", "you"], answer: "hi" },
-  { title: "this is the second question?", choices: ["w", "x", "y", "z"], answer: "z" },
-  { title: "this is the third question?", choices: ["a", "b", "c", "d"], answer: "b" },
-  { title: "this is the third question?", choices: ["a", "b", "c", "d"], answer: "b" },
-  { title: "this is the third question?", choices: ["a", "b", "c", "d"], answer: "b" },
+  { title: "Arrays are enclosed with what?", choices: ["parentheses", "brackets", "curly braces", "quotes"], answer: "brackets" },
+  { title: "Variables declared outside of a function are called?", choices: ["universal", "local", "external", "global"], answer: "global" },
+  { title: "What would you create to run a piece of code multiple times?", choices: ["loop", "repeat", "function", "class"], answer: "loop" },
+  { title: "How do you add text to a new element in JavaScript?", choices: ["aggregate", "append", "affix", "adjust"], answer: "append" },
+  { title: "What is the extension for JavaScript files?", choices: ["j5", "js", "j$", "jz"], answer: "js" },
 ];
 let questionsIndex = 0;
 let timer;
-let timerCount = 31;
+let timerCount;
 
 //functions
+
 function startQuiz() {
+  resultsDiv.innerHTML = "";
+  playAgainbtn.innerHTML = "";
+  playAgainbtn.disabled = true;
+  timerCount = 30;
   createButtons(questionsIndex);
   //bring up question
   document.getElementById("starter").style.display = "none";
-  //make clickable
   //start timer
   startTimer();
 }
@@ -29,11 +36,12 @@ function startTimer() {
     timerCount--;
     timerElement.textContent = timerCount;
 
-    // Tests if time has run out
     if (timerCount === 0) {
+      // Tests if time has run out
       // Clears interval
       clearInterval(timer);
       //function to end quiz
+      gameOver();
     }
   }, 1000);
 }
@@ -45,7 +53,6 @@ function createButtons(index) {
   title.textContent = questions[index].title;
   qDiv.appendChild(title);
 
-  //add 4 answer options
   let buttonOne = document.createElement("button");
   buttonOne.textContent = questions[index].choices[0];
   buttonOne.dataset.answer = questions[index].answer;
@@ -67,6 +74,24 @@ function createButtons(index) {
   qDiv.appendChild(buttonFour);
 }
 
+function gameOver() {
+  qDiv.innerHTML = "";
+  resultsDiv.textContent = "GAME OVER";
+  clearInterval(timer);
+  questionsIndex = 0;
+
+  let again = document.createElement("button");
+  again.textContent = "PLAY AGAIN?";
+  playAgainbtn.appendChild(again);
+
+  let enterBox = document.createElement("input");
+  enterBox.attributes
+  nameBox.appendChild(enterBox);
+
+  let element = document.getElementById("#questions");
+  element.remove();
+}
+
 //function calls
 
 startQuizbtn.addEventListener("click", startQuiz);
@@ -77,9 +102,14 @@ qDiv.addEventListener("click", function (event) {
   let answer = event.target.dataset.answer;
 
   if (choice === answer) {
-    alert("correct");
+    resultsDiv.textContent = "✅ correct! ✅";
   } else {
-    alert("sorry, wrong answer");
+    resultsDiv.textContent = "❌ wrong! ❌";
+    if (timerCount <= 5) {
+      gameOver();
+    } else {
+      timerCount = timerCount - 5;
+    }
   }
 
   if (questionsIndex < questions.length - 1) {
@@ -87,6 +117,8 @@ qDiv.addEventListener("click", function (event) {
     createButtons(questionsIndex);
   } else {
     qDiv.innerHTML = "";
-    alert("game over");
+    gameOver();
   }
 });
+
+playAgainbtn.addEventListener("click", startQuiz);

@@ -12,17 +12,23 @@
 <body>
     <header>
         <a href="highscores">View High Scores</a>
-        <div class="timer">Timer <span id="countdown"></span></div>
+        <div class="timer">TIMER: <span id="countdown"></span></div>
     </header>
     <!-- title -->
     <h1 class="quizTitle">TIMED CODING QUIZ</h1>
     <!-- paragraph explaining quiz -->
-    <div id='starter'>
-        <p>Click the button below to begin the quick challenge!</p>
-        <button id="startQuiz">START QUIZ</button>
-    </div>
+
     <!-- attach questions here -->
-    <div id="questions"></div>
+    <div class="card" id="cardClass">
+        <div id='starter'>
+            <p>Click the button below to begin the quick challenge!</p>
+            <button id="startQuiz">START QUIZ</button>
+        </div>
+        <div id="questions"></div>
+        <div id="results"></div>
+        <div id="enterName"></div>
+        <div id="playAgain"></div>
+    </div>
     <script src="./assets/js/script.js"></script>
 
 </body>
