@@ -4,7 +4,7 @@ let qDiv = document.querySelector("#questions");
 let timerElement = document.querySelector("#countdown");
 let resultsDiv = document.querySelector("#results");
 let nameBox = document.querySelector("#enterName");
-let submitDiv = document.querySelector("#submit");
+let submitBtn = document.querySelector("#submit");
 let playAgainbtn = document.querySelector("#playAgain");
 let questions = [
   { title: "Arrays are enclosed with what?", choices: ["parentheses", "brackets", "curly braces", "quotes"], answer: "brackets" },
@@ -16,6 +16,10 @@ let questions = [
 let questionsIndex = 0;
 let timer;
 let timerCount;
+let scores = JSON.parse(localStorage.getItem("scores")) || [];
+let score = 0;
+let highScores = document.querySelector("#highScoresDisplay");
+let viewScores = document.querySelector("#viewScores");
 
 //functions
 
@@ -23,12 +27,17 @@ function startQuiz() {
   resultsDiv.innerHTML = "";
   playAgainbtn.innerHTML = "";
   playAgainbtn.disabled = true;
-  nameBox.disabled = true;
-  nameBox.innerHTML = "";
-  submitDiv.disabled = true;
-  submitDiv.innerHTML = "";
+  // nameBox.disabled = true;
+  // nameBox.innerHTML = "";
+  // submitBtn.disabled = true;
+  // submitBtn.innerHTML = "";
+  // document.getElementById("enterName").style.display = "none";
+  // document.getElementById("submit").style.display = "none";
   timerCount = 30;
-  createButtons(questionsIndex);
+  timerElement.style.color = "blue";
+  timerElement.style.fontSize = "1.5rem";
+
+  createQuestion(0);
   //bring up question
   document.getElementById("starter").style.display = "none";
   //start timer
@@ -42,45 +51,57 @@ function startTimer() {
     timerElement.textContent = timerCount;
     if (timerCount <= 10) {
       timerElement.style.color = "red";
-      timerElement.style.fontSize = "3rem";
     }
     if (timerCount === 0) {
       // Tests if time has run out
       // Clears interval
       clearInterval(timer);
+
       //function to end quiz
       gameOver();
     }
   }, 1000);
 }
 
-function createButtons(index) {
-  qDiv.innerHTML = "";
-  //this will cycle questions through buttons
+function createQuestion(index) {
   let title = document.createElement("h2");
   title.textContent = questions[index].title;
   qDiv.appendChild(title);
-
-  let buttonOne = document.createElement("button");
-  buttonOne.textContent = questions[index].choices[0];
-  buttonOne.dataset.answer = questions[index].answer;
-  qDiv.appendChild(buttonOne);
-
-  let buttonTwo = document.createElement("button");
-  buttonTwo.textContent = questions[index].choices[1];
-  buttonTwo.dataset.answer = questions[index].answer;
-  qDiv.appendChild(buttonTwo);
-
-  let buttonThree = document.createElement("button");
-  buttonThree.textContent = questions[index].choices[2];
-  buttonThree.dataset.answer = questions[index].answer;
-  qDiv.appendChild(buttonThree);
-
-  let buttonFour = document.createElement("button");
-  buttonFour.textContent = questions[index].choices[3];
-  buttonFour.dataset.answer = questions[index].answer;
-  qDiv.appendChild(buttonFour);
+  questions[index].choices.forEach((choice) => {
+    let buttonOne = document.createElement("button");
+    buttonOne.textContent = choice;
+    buttonOne.dataset.answer = questions[index].answer;
+    qDiv.appendChild(buttonOne);
+  });
 }
+
+// function createButtons(index) {
+//   qDiv.innerHTML = "";
+//   //this will cycle questions through buttons
+//   let title = document.createElement("h2");
+//   title.textContent = questions[index].title;
+//   qDiv.appendChild(title);
+
+//   let buttonOne = document.createElement("button");
+//   buttonOne.textContent = questions[index].choices[0];
+//   buttonOne.dataset.answer = questions[index].answer;
+//   qDiv.appendChild(buttonOne);
+
+//   let buttonTwo = document.createElement("button");
+//   buttonTwo.textContent = questions[index].choices[1];
+//   buttonTwo.dataset.answer = questions[index].answer;
+//   qDiv.appendChild(buttonTwo);
+
+//   let buttonThree = document.createElement("button");
+//   buttonThree.textContent = questions[index].choices[2];
+//   buttonThree.dataset.answer = questions[index].answer;
+//   qDiv.appendChild(buttonThree);
+
+//   let buttonFour = document.createElement("button");
+//   buttonFour.textContent = questions[index].choices[3];
+//   buttonFour.dataset.answer = questions[index].answer;
+//   qDiv.appendChild(buttonFour);
+// }
 
 function gameOver() {
   qDiv.innerHTML = "";
@@ -92,22 +113,33 @@ function gameOver() {
   again.textContent = "PLAY AGAIN?";
   playAgainbtn.appendChild(again);
 
-  let enterBox = document.createElement("input");
-  enterBox.setAttribute("placeholder", "ENTER YOUR NAME");
-  nameBox.appendChild(enterBox);
+  // document.getElementById("enterName").style.display = "block";
+  // document.getElementById("submit").style.display = "block";
 
-  let submitBtn = document.createElement("button");
-  submitBtn.textContent = "SUBMIT";
-  submitDiv.appendChild(submitBtn);
+  // let enterBox = document.createElement("input");
+  // enterBox.setAttribute("placeholder", "ENTER YOUR NAME");
+  // enterBox.setAttribute('id', 'initials');
+  // nameBox.appendChild(enterBox);
 
-  let element = document.getElementById("#questions");
-  element.remove();
+  // let submitBtn = document.createElement("button");
+  // submitBtn.textContent = "SUBMIT";
+  // submitDiv.appendChild(submitBtn);
+
+  // let element = document.getElementById("questions");
+  // element.remove();
 }
 
 function submitName() {
-  // let element = getElementById('#enterName');
-  // localStorage.setItem("userName", element);
-  localStorage.setItem("score", timerCount);
+  let name = document.querySelector("#enterName").value;
+  document.querySelector("#enterName").value = "";
+  let score = timerCount;
+  let userScore = {
+    name: name,
+    score: score,
+  };
+  scores.push(userScore);
+
+  localStorage.setItem("scores", JSON.stringify(scores));
 }
 
 //function calls
@@ -132,13 +164,34 @@ qDiv.addEventListener("click", function (event) {
 
   if (questionsIndex < questions.length - 1) {
     questionsIndex++;
-    createButtons(questionsIndex);
+    qDiv.innerHTML = "";
+    createQuestion(questionsIndex);
   } else {
     qDiv.innerHTML = "";
     gameOver();
   }
 });
 
-submitDiv.addEventListener("click", submitName);
+function displayScores(event) {
+  event.preventDefault();
+  scores.forEach((scr) => {
+    highScores.innerHTML += `${scr.name}: ${scr.score} <br>`;
+  });
+}
+
+submitBtn.addEventListener("click", submitName);
+
+viewScores.addEventListener("click", displayScores);
+
+// submitDiv.addEventListener("click", function (event) {
+//   console.log(event);
+
+//   let user = {
+//     userName: nameBox.value,
+//     userScore: timerCount,
+//   };
+
+//   localStorage.setItem("user", user);
+// });
 
 playAgainbtn.addEventListener("click", startQuiz);

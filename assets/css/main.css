@@ -17,15 +17,23 @@ body {
 
 .card {
     width: 50rem;
-    height: 30rem;
+    height: 25rem;
     border: 3px solid black;
     border-radius: 25%;
     box-shadow: 6px 6px 6px black;
-    margin: auto;
-        display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* .hidden {
+    display: none;
+} */
+
+.visible {
+    display: none;
 }
 
 .quizTitle {

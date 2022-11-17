@@ -11,7 +11,7 @@
 
 <body>
     <header>
-        <a href="highscores">VIEW HIGH SCORES</a>
+        <a href="highscores" id="viewScores">VIEW HIGH SCORES</a>
         <div class="timer">TIMER: <span id="countdown"></span></div>
     </header>
     <!-- title -->
@@ -21,15 +21,21 @@
     <!-- attach questions here -->
     <div class="card" id="cardClass">
         <div id='starter'>
-            <p>You have 30 seconds to answer 5 questions. <br>Be careful...each incorrect answer reduces your time by 5 seconds!
+            <p>You have 30 seconds to answer 5 questions. <br>Be careful...each incorrect answer reduces your time by 5
+                seconds!
             </p>
             <button id="startQuiz">START QUIZ</button>
         </div>
         <div id="questions"></div>
         <div id="results"></div>
-        <div id="enterName"></div>
-        <div id="submit"></div>
+        <!-- <div id="enterName"></div> -->
+<form>
+        <input placeholder="ENTER NAME" id="enterName">
+        <button id="submit" type="submit">SUBMIT</button>
+</form>
+        <!-- <div id="submit"></div> -->
         <div id="playAgain"></div>
+        <div id="highScoresDisplay"></div>
     </div>
     <script src="./assets/js/script.js"></script>
 
