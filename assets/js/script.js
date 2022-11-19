@@ -20,19 +20,15 @@ let scores = JSON.parse(localStorage.getItem("scores")) || [];
 let score = 0;
 let highScores = document.querySelector("#highScoresDisplay");
 let viewScores = document.querySelector("#viewScores");
+let form = document.querySelector("#userForm");
 
 //functions
 
 function startQuiz() {
   resultsDiv.innerHTML = "";
+  highScores.innerHTML = "";
   playAgainbtn.innerHTML = "";
   playAgainbtn.disabled = true;
-  // nameBox.disabled = true;
-  // nameBox.innerHTML = "";
-  // submitBtn.disabled = true;
-  // submitBtn.innerHTML = "";
-  // document.getElementById("enterName").style.display = "none";
-  // document.getElementById("submit").style.display = "none";
   timerCount = 30;
   timerElement.style.color = "blue";
   timerElement.style.fontSize = "1.5rem";
@@ -45,21 +41,19 @@ function startQuiz() {
 }
 
 function startTimer() {
-  // Sets timer
   timer = setInterval(function () {
     timerCount--;
-    timerElement.textContent = timerCount;
     if (timerCount <= 10) {
       timerElement.style.color = "red";
     }
-    if (timerCount === 0) {
+    if (timerCount <= 0) {
       // Tests if time has run out
       // Clears interval
       clearInterval(timer);
-
-      //function to end quiz
+      timerCount = 0;
       gameOver();
     }
+    timerElement.textContent = timerCount;
   }, 1000);
 }
 
@@ -105,6 +99,8 @@ function createQuestion(index) {
 
 function gameOver() {
   qDiv.innerHTML = "";
+
+  form.classList.remove("hidden");
   resultsDiv.textContent = "GAME OVER";
   clearInterval(timer);
   questionsIndex = 0;
@@ -112,21 +108,6 @@ function gameOver() {
   let again = document.createElement("button");
   again.textContent = "PLAY AGAIN?";
   playAgainbtn.appendChild(again);
-
-  // document.getElementById("enterName").style.display = "block";
-  // document.getElementById("submit").style.display = "block";
-
-  // let enterBox = document.createElement("input");
-  // enterBox.setAttribute("placeholder", "ENTER YOUR NAME");
-  // enterBox.setAttribute('id', 'initials');
-  // nameBox.appendChild(enterBox);
-
-  // let submitBtn = document.createElement("button");
-  // submitBtn.textContent = "SUBMIT";
-  // submitDiv.appendChild(submitBtn);
-
-  // let element = document.getElementById("questions");
-  // element.remove();
 }
 
 function submitName() {
@@ -138,6 +119,10 @@ function submitName() {
     score: score,
   };
   scores.push(userScore);
+  scores.sort((score1, score2) => {
+    return score1.score < score2.score ? 1 : -1;
+  });
+  scores = scores.slice(0, 5);
 
   localStorage.setItem("scores", JSON.stringify(scores));
 }
@@ -155,11 +140,7 @@ qDiv.addEventListener("click", function (event) {
     resultsDiv.textContent = "✅ correct! ✅";
   } else {
     resultsDiv.textContent = "❌ wrong! ❌";
-    if (timerCount <= 5) {
-      gameOver();
-    } else {
-      timerCount = timerCount - 5;
-    }
+    timerCount = timerCount - 5;
   }
 
   if (questionsIndex < questions.length - 1) {

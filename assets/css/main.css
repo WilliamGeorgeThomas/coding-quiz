@@ -28,13 +28,10 @@ body {
 }
 
 
-/* .hidden {
-    display: none;
-} */
-
-.visible {
+.hidden {
     display: none;
 }
+
 
 .quizTitle {
     font-family: Futura, Trebuchet MS, Arial, sans-serif;
@@ -49,14 +46,6 @@ body {
     flex-direction: column;
     align-items: center;
 }
-
-/* #startQuiz {
-    font-weight: bold;
-    color: black;
-    border: 3px solid black;
-    background-color: transparent;
-
-} */
 
 
 button {
