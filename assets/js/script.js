@@ -1,4 +1,3 @@
-//global variables
 let startQuizbtn = document.querySelector("#startQuiz");
 let qDiv = document.querySelector("#questions");
 let timerElement = document.querySelector("#countdown");
@@ -21,8 +20,6 @@ let score = 0;
 let highScores = document.querySelector("#highScoresDisplay");
 let viewScores = document.querySelector("#viewScores");
 let form = document.querySelector("#userForm");
-
-//functions
 
 function startQuiz() {
   resultsDiv.innerHTML = "";
@@ -69,34 +66,6 @@ function createQuestion(index) {
   });
 }
 
-// function createButtons(index) {
-//   qDiv.innerHTML = "";
-//   //this will cycle questions through buttons
-//   let title = document.createElement("h2");
-//   title.textContent = questions[index].title;
-//   qDiv.appendChild(title);
-
-//   let buttonOne = document.createElement("button");
-//   buttonOne.textContent = questions[index].choices[0];
-//   buttonOne.dataset.answer = questions[index].answer;
-//   qDiv.appendChild(buttonOne);
-
-//   let buttonTwo = document.createElement("button");
-//   buttonTwo.textContent = questions[index].choices[1];
-//   buttonTwo.dataset.answer = questions[index].answer;
-//   qDiv.appendChild(buttonTwo);
-
-//   let buttonThree = document.createElement("button");
-//   buttonThree.textContent = questions[index].choices[2];
-//   buttonThree.dataset.answer = questions[index].answer;
-//   qDiv.appendChild(buttonThree);
-
-//   let buttonFour = document.createElement("button");
-//   buttonFour.textContent = questions[index].choices[3];
-//   buttonFour.dataset.answer = questions[index].answer;
-//   qDiv.appendChild(buttonFour);
-// }
-
 function gameOver() {
   qDiv.innerHTML = "";
 
@@ -126,8 +95,6 @@ function submitName() {
 
   localStorage.setItem("scores", JSON.stringify(scores));
 }
-
-//function calls
 
 startQuizbtn.addEventListener("click", startQuiz);
 
@@ -163,16 +130,5 @@ function displayScores(event) {
 submitBtn.addEventListener("click", submitName);
 
 viewScores.addEventListener("click", displayScores);
-
-// submitDiv.addEventListener("click", function (event) {
-//   console.log(event);
-
-//   let user = {
-//     userName: nameBox.value,
-//     userScore: timerCount,
-//   };
-
-//   localStorage.setItem("user", user);
-// });
 
 playAgainbtn.addEventListener("click", startQuiz);
